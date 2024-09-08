@@ -22,17 +22,19 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'role_id' => 'required|exists:roles,id',
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-        ]);
+            'role_id' => $request->role_id,
+        ]);        
 
         return response()->json($user, 201);
     }
@@ -62,6 +64,7 @@ class UserController extends Controller
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|string|email|max:255|unique:users,email,' . $id,
             'password' => 'sometimes|string|min:8',
+            'role_id' => 'exists:roles,id',
         ]);
 
         if ($validator->fails()) {
@@ -72,6 +75,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'role_id' => $request->role_id,
         ]));
 
         return response()->json($user);
