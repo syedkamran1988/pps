@@ -10,23 +10,17 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Assuming the roles are already seeded
-        $adminRoleId = DB::table('roles')->where('name', 'Admin')->value('id');
-        $salespersonRoleId = DB::table('roles')->where('name', 'Salesperson')->value('id');
-
         // Insert users with different roles
         DB::table('users')->insert([
             [
                 'name' => 'Admin User',
                 'email' => 'admin@pps.com',
-                'password' => Hash::make('12345678'),
-                'role_id' => $adminRoleId
+                'password' => Hash::make('12345678')
             ],
             [
                 'name' => 'Salesperson User',
                 'email' => 'salesperson@pps.com',
-                'password' => Hash::make('12345678'),
-                'role_id' => $salespersonRoleId
+                'password' => Hash::make('12345678')
             ],
         ]);
     }
